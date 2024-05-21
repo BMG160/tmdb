@@ -95,4 +95,10 @@ class ApplyImpl extends Apply{
   @override
   Future<List<VideoVO>?> getVideoFromNetwork(String movieID) => _agent.getVideoFromNetwork(movieID);
 
+  @override
+  Future<List<MovieVO>?> getSimilarMovieFromNetwork(String movieID, int page) => _agent.getSimilarMovieFromNetwork(movieID, page);
+
+  @override
+  Future<List<MovieVO>?> getSearchMovieFromNetwork(String query) => _agent.getSearchMovieFromNetwork(query);
+
 }

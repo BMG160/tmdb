@@ -73,5 +73,19 @@ class DataAgentImpl extends DataAgent{
       .asStream()
       .map((event) => event.results)
       .first;
+
+  @override
+  Future<List<MovieVO>?> getSimilarMovieFromNetwork(String movieID, int page) => _api
+      .getSimilarMovieResponse(movieID, kApiKey, page)
+      .asStream()
+      .map((event) => event.results)
+      .first;
+
+  @override
+  Future<List<MovieVO>?> getSearchMovieFromNetwork(String query) => _api
+      .getSearchMovieResponse(kApiKey, query)
+      .asStream()
+      .map((event) => event.results)
+      .first;
   
 }

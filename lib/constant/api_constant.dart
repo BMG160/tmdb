@@ -9,6 +9,8 @@ const kGetMoviesByGenresEndPoint = "/discover/movie";
 const kGetDetailEndPoint = "/movie/{$kPathParamsMovieID}";
 const kGetCreditsEndPoint = "/movie/{$kPathParamsMovieID}/credits";
 const kGetVideoEndPoint = "/movie/{$kPathParamsMovieID}/videos";
+const kGetSimilarMovieEndPoint = "/movie/{$kPathParamsMovieID}/similar";
+const kGetSearchMovieEndPoint = "/search/movie";
 
 ////Api Key
 const kApiKey = "4a11f8fb1f5819153818ec4a83e6799a";
@@ -18,6 +20,7 @@ const kQueryParamsApiKey = "api_key";
 const kQueryParamsPage = "page";
 const kQueryParamsWithGenres = "with_genres";
 const kQueryParamsMovieID = "id";
+const kQueryParamsQuery = "query";
 
 const kPathParamsMovieID = "movie_id";
 

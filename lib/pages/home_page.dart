@@ -8,6 +8,7 @@ import 'package:tmdb/constant/color.dart';
 import 'package:tmdb/data/vos/genres_vo/genres_vo.dart';
 import 'package:tmdb/data/vos/movie_vo/movie_vo.dart';
 import 'package:tmdb/pages/detail_page.dart';
+import 'package:tmdb/pages/search_page.dart';
 import 'package:tmdb/utils/extensions.dart';
 
 import '../constant/api_constant.dart';
@@ -25,6 +26,12 @@ class HomePage extends StatelessWidget {
             backgroundColor: kPrimaryBackgroundColor,
             centerTitle: true,
             title: const Text('TMDB App', style: TextStyle(color: kPrimaryTextColor, fontSize: 25, fontWeight: FontWeight.w900),),
+            actions: [
+              IconButton(onPressed: (){context.navigateToNextScreenReplace(context, const SearchPage());}, icon: const Icon(Icons.search, color: kIconColor, size: 25,)),
+              const SizedBox(
+                width: 10,
+              )
+            ],
           ),
           body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -143,7 +150,7 @@ class PopularMovieView extends StatelessWidget {
                     itemCount: popularMovieList.length,
                     itemBuilder: (context, index) =>GestureDetector(
                       onTap: (){
-                        context.navigateToNextScreenReplace(context, DetailPage(movieID: (popularMovieList?[index].id ?? '').toString()));
+                        context.navigateToNextScreenReplace(context, DetailPage(movieID: (popularMovieList[index].id ?? '').toString()));
                       },
                       child: SizedBox(
                         width: 200,
@@ -245,7 +252,7 @@ class MovieView extends StatelessWidget {
                           color: (index == selectedIndex) ? kSecondaryBackgroundColor : kTertiaryBackgroundColor,
                         ),
                         child: Center(
-                          child: Text(genresList[index].name ?? '', style: TextStyle(color: kPrimaryTextColor),),
+                          child: Text(genresList[index].name ?? '', style: const TextStyle(color: kPrimaryTextColor),),
                         ),
                       ),
                     ),
@@ -271,7 +278,7 @@ class MovieView extends StatelessWidget {
                     itemCount: movieList.length,
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: (){
-                        context.navigateToNextScreenReplace(context, DetailPage(movieID:( movieList?[index].id ?? '').toString()));
+                        context.navigateToNextScreenReplace(context, DetailPage(movieID:( movieList[index].id ?? '').toString()));
                       },
                       child: Container(
                         width: 200,

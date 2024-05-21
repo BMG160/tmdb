@@ -22,4 +22,8 @@ abstract class DataAgent{
   Future<List<CrewVO>?> getCrewFromNetwork(String movieID);
 
   Future<List<VideoVO>?> getVideoFromNetwork(String movieID);
+
+  Future<List<MovieVO>?> getSimilarMovieFromNetwork(String movieID, int page);
+
+  Future<List<MovieVO>?> getSearchMovieFromNetwork(String query);
 }

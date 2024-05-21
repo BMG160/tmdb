@@ -1,8 +1,6 @@
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb/constant/color.dart';
-import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../bloc/video_page_bloc.dart';
@@ -23,21 +21,21 @@ class VideoPage extends StatelessWidget {
               onPressed: (){
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back_ios_new, color: kIconColor,),
+              icon: const Icon(Icons.arrow_back_ios_new, color: kIconColor,),
             ),
           ),
           body: Selector<VideoPageBloc, YoutubePlayerController?>(
             selector: (_, bloc) => bloc.getController,
             builder: (_, controller, child) => (controller == null) ?
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Center(
+                  child: const Center(
                     child: CircularProgressIndicator(
                       color: kIconColor,
                     ),
                   ),
-                ) : Container(
+                ) : SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Center(

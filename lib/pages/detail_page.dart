@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb/bloc/detail_page_bloc.dart';
 import 'package:tmdb/constant/api_constant.dart';
@@ -26,6 +24,36 @@ class DetailPage extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: kPrimaryBackgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: kTertiaryBackgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: kIconColor,
+                    size: 15,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
         body: Selector<DetailPageBloc, DetailResponse?>(
           selector: (_, bloc) => bloc.getMovieVO,
           builder: (_, movie, child) => (movie == null) ?
@@ -52,7 +80,7 @@ class DetailPage extends StatelessWidget {
                         children: [
                           Positioned.fill(child: CachedNetworkImage(imageUrl: "$kPrefixImageLink${movie.backdropPath}", fit: BoxFit.fill,)),
                           Positioned.fill(child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [Colors.transparent, Colors.black],
                                 begin: Alignment.topCenter,
@@ -65,7 +93,7 @@ class DetailPage extends StatelessWidget {
                             child: Container(
                               width: MediaQuery.of(context).size.height,
                               margin: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(movie?.originalTitle ?? 'Unknown', style: TextStyle(color: kPrimaryTextColor, fontSize: 25,),),
+                              child: Text(movie.originalTitle ?? 'Unknown', style: const TextStyle(color: kPrimaryTextColor, fontSize: 25,),),
                             ),
                           )
                         ],
@@ -118,7 +146,7 @@ class DetailPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.timelapse,
                                     color: Colors.white,
                                     size: 25,
@@ -127,7 +155,7 @@ class DetailPage extends StatelessWidget {
                                     selector: (_, bloc) => bloc.getHour,
                                     builder: (_, hour, child) => Selector<DetailPageBloc, int>(
                                       selector: (_, bloc) => bloc.getMin,
-                                      builder: (_, min, child) => Text("${hour}hr${min}min", style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                                      builder: (_, min, child) => Text("${hour}hr${min}min", style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                                     ),
                                   )
                                 ],
@@ -139,18 +167,18 @@ class DetailPage extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text('Overview', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15,),),
+                      const Text('Overview', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15,),),
                       const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        child: Text(movie?.overview ?? '', style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                        child: Text(movie.overview ?? '', style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      Text('About', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15,),),
+                      const Text('About', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15,),),
                       const SizedBox(
                         height: 5,
                       ),
@@ -163,7 +191,8 @@ class DetailPage extends StatelessWidget {
                             child: Text('Original Title', style: TextStyle(color: kSecondaryTextColor, fontSize: 15),),
                           ),
                           SizedBox(
-                            child: Text(movie.originalTitle ?? '', style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                            width: MediaQuery.of(context).size.width*0.5,
+                            child: Text(movie.originalTitle ?? '', style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                           )
                         ],
                       ),
@@ -179,7 +208,8 @@ class DetailPage extends StatelessWidget {
                             child: Text('Released Date', style: TextStyle(color: kSecondaryTextColor, fontSize: 15),),
                           ),
                           SizedBox(
-                            child: Text(movie.releaseDate ?? '', style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                            width: MediaQuery.of(context).size.width*0.5,
+                            child: Text(movie.releaseDate ?? '', style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                           )
                         ],
                       ),
@@ -195,7 +225,8 @@ class DetailPage extends StatelessWidget {
                             child: Text('Rating', style: TextStyle(color: kSecondaryTextColor, fontSize: 15),),
                           ),
                           SizedBox(
-                            child: Text(movie.voteAverage.toString() ?? '', style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                            width: MediaQuery.of(context).size.width*0.5,
+                            child: Text(movie.voteAverage.toString(), style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                           )
                         ],
                       ),
@@ -219,7 +250,7 @@ class DetailPage extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text('Cast', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
+                      const Text('Cast', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
                       const SizedBox(
                         height: 10,
                       ),
@@ -228,7 +259,7 @@ class DetailPage extends StatelessWidget {
                         height: 250,
                         child: Selector<DetailPageBloc, List<CastVO>?>(
                           selector: (_, bloc) => bloc.getCastList,
-                          builder: (_, castList, child) => (castList?.isEmpty ?? false) ? Center(
+                          builder: (_, castList, child) => (castList?.isEmpty ?? false) ? const Center(
                             child: CircularProgressIndicator(
                               color: Colors.white,
                             ),
@@ -247,7 +278,7 @@ class DetailPage extends StatelessWidget {
                                 SizedBox(
                                   width: 200,
                                   height: 50,
-                                  child: Text("${castList?[index].originalName} as ${castList?[index].character}", style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                                  child: Text("${castList?[index].originalName} as ${castList?[index].character}", style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                                 )
                               ],
                             ),
@@ -255,7 +286,7 @@ class DetailPage extends StatelessWidget {
                           )
                         ),
                       ),
-                      Text('Crew', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
+                      const Text('Crew', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
                       const SizedBox(
                         height: 10,
                       ),
@@ -264,7 +295,7 @@ class DetailPage extends StatelessWidget {
                         height: 250,
                         child: Selector<DetailPageBloc, List<CrewVO>?>(
                             selector: (_, bloc) => bloc.getCrewList,
-                            builder: (_, crewList, child) => (crewList?.isEmpty ?? false) ? Center(
+                            builder: (_, crewList, child) => (crewList?.isEmpty ?? false) ? const Center(
                               child: CircularProgressIndicator(
                                 color: Colors.white,
                               ),
@@ -283,7 +314,7 @@ class DetailPage extends StatelessWidget {
                                   SizedBox(
                                     width: 200,
                                     height: 50,
-                                    child: Text("${crewList?[index].originalName} (${crewList?[index].job})", style: TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                                    child: Text("${crewList?[index].originalName} (${crewList?[index].job})", style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
                                   )
                                 ],
                               ),
@@ -300,7 +331,7 @@ class DetailPage extends StatelessWidget {
                         child: Selector<DetailPageBloc, List<VideoVO>?>(
                           selector: (_, bloc) => bloc.getVideoList,
                           builder: (_, videoList, child) => (videoList?.isEmpty ?? false) ? 
-                          Center(
+                          const Center(
                             child: CircularProgressIndicator(
                               color: kIconColor,
                             ),
@@ -314,7 +345,7 @@ class DetailPage extends StatelessWidget {
                                 SizedBox(
                                   width: 250,
                                   height: 50,
-                                  child: Text(videoList?[index].type ?? "Unknown", style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
+                                  child: Text(videoList?[index].type ?? "Unknown", style: const TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
                                 ),
                                 SizedBox(
                                   width: 250,
@@ -331,7 +362,7 @@ class DetailPage extends StatelessWidget {
                                               onPressed: (){
                                                 context.navigateToNextScreenReplace(context, VideoPage(uri: videoList?[index].key ?? ''));
                                               },
-                                              icon: Icon(Icons.play_circle, color: kIconColor, size: 25,)
+                                              icon: const Icon(Icons.play_circle, color: kIconColor, size: 25,)
                                           )
                                       )
                                     ],
@@ -342,7 +373,55 @@ class DetailPage extends StatelessWidget {
                             separatorBuilder: (context, index) => const SizedBox(width: 10,),
                           )
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text('Similar Movies', style: TextStyle(color: kSecondaryBackgroundColor, fontSize: 15),),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 250,
+                        child: Selector<DetailPageBloc, ScrollController>(
+                          selector: (_, bloc) => bloc.getSimilarController,
+                          builder: (_, controller, child) => Selector<DetailPageBloc, List<MovieVO>?>(
+                              selector: (_, bloc) => bloc.getSimilarMovieList,
+                              builder: (_, similarMovieList, child) => (similarMovieList?.isEmpty ?? false) ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ) : ListView.separated(
+                                controller: controller,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: similarMovieList?.length ?? 0,
+                                itemBuilder: (context, index) => Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        context.navigateToNextScreenReplace(context, DetailPage(movieID: (similarMovieList?[index].id ?? 0).toString()));
+                                      },
+                                      child: SizedBox(
+                                        width: 200,
+                                        height: 200,
+                                        child: (similarMovieList?[index].backdropPath == null) ? CachedNetworkImage(imageUrl: kDefaultImage, fit: BoxFit.cover,) : CachedNetworkImage(imageUrl: "$kPrefixImageLink${similarMovieList?[index].backdropPath ?? ''}", fit: BoxFit.cover,),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 200,
+                                      height: 50,
+                                      child: Text(similarMovieList?[index].title ?? 'Unknown', style: const TextStyle(color: kPrimaryTextColor, fontSize: 15),),
+                                    )
+                                  ],
+                                ),
+                                separatorBuilder: (context, index) => const SizedBox(width: 20,),
+                              )
+                          ),
+                        ),
+                      ),
                     ],
                   )
                 ),

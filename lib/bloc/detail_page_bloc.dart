@@ -11,20 +11,32 @@ import '../data/vos/movie_vo/movie_vo.dart';
 class DetailPageBloc extends ChangeNotifier{
   final Apply _apply = ApplyImpl();
 
+  bool _dispose = false;
+
   DetailResponse? movieVO;
+
+  int pageForSimilar = 1;
 
   List<CastVO>? castList = [];
   List<CrewVO>? crewList = [];
   List<VideoVO>? videoList = [];
+  List<MovieVO>? similarMovieList = [];
+
+  final ScrollController _similarController = ScrollController();
+
   int hour = 0;
   int min = 0;
 
+  bool get isDispose => _dispose;
   DetailResponse? get getMovieVO => movieVO;
   int get getHour => hour;
   int get getMin => min;
   List<CastVO>? get getCastList => castList;
   List<CrewVO>? get getCrewList => crewList;
   List<VideoVO>? get getVideoList => videoList;
+  List<MovieVO>? get getSimilarMovieList => similarMovieList;
+
+  ScrollController get getSimilarController => _similarController;
 
   DetailPageBloc(String movieID){
     _apply.getDetailsFromNetwork(movieID).then((value) {
@@ -48,6 +60,49 @@ class DetailPageBloc extends ChangeNotifier{
       videoList = value;
       notifyListeners();
     });
+
+    _apply.getSimilarMovieFromNetwork(movieID, pageForSimilar).then((value) {
+      similarMovieList = value;
+      notifyListeners();
+    });
+
+    _similarController.addListener(() {
+      if(_similarController.position.atEdge){
+        double pixel = _similarController.position.pixels;
+        if(pixel != 0){
+          pageForSimilar++;
+          _apply.getSimilarMovieFromNetwork(movieID, pageForSimilar).then((value) {
+            similarMovieList = value;
+          });
+          _similarController.animateTo(_similarController.position.minScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+          notifyListeners();
+        }
+        if(pixel == 0){
+          if(pageForSimilar > 1){
+            pageForSimilar--;
+            _apply.getSimilarMovieFromNetwork(movieID, pageForSimilar).then((value) {
+              similarMovieList = value;
+              notifyListeners();
+            });
+          }
+        }
+      }
+    });
+  }
+
+  @override
+  void notifyListeners() {
+    if(!_dispose){
+      super.notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _dispose = true;
+    _similarController.dispose();
   }
 }
 

@@ -22,6 +22,10 @@ abstract class Apply{
 
   Future<List<VideoVO>?> getVideoFromNetwork(String movieID);
 
+  Future<List<MovieVO>?> getSimilarMovieFromNetwork (String movieID, int page);
+
+  Future<List<MovieVO>?> getSearchMovieFromNetwork(String query);
+
   Future<List<MovieVO>?> getMoviesByGenresFromNetwork(int page, int genreID);
 
   Stream<List<MovieVO>?> getGetNowPlayingFromDatabaseStream();

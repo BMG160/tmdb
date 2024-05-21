@@ -6,8 +6,7 @@ import 'package:tmdb/network/responses/detail_response/detail_response.dart';
 import 'package:tmdb/network/responses/get_genres_response/get_genres_response.dart';
 import 'package:tmdb/network/responses/movie_response/get_now_playing_response.dart';
 
-import '../../data/vos/genres_vo/genres_vo.dart';
-import '../../data/vos/movie_vo/movie_vo.dart';
+
 import '../responses/credits_response/credits_response.dart';
 import '../responses/video_response/video_response.dart';
 
@@ -37,7 +36,7 @@ abstract class Api{
       @Query(kQueryParamsWithGenres) int genreID
       );
 
-  @GET("$kGetDetailEndPoint")
+  @GET(kGetDetailEndPoint)
   Future<DetailResponse> getDetailResponse(
       @Path(kPathParamsMovieID) String movieID,
       @Query(kQueryParamsApiKey) String apiKey,
@@ -58,5 +57,18 @@ abstract class Api{
   Future<VideoResponse> getVideoResponse(
       @Path(kPathParamsMovieID) String movieID,
       @Query(kQueryParamsApiKey) String apiKey,
+      );
+
+  @GET(kGetSimilarMovieEndPoint)
+  Future<GetNowPlayingResponse> getSimilarMovieResponse(
+      @Path(kPathParamsMovieID) String movieID,
+      @Query(kQueryParamsApiKey) String apiKey,
+      @Query(kQueryParamsPage) int page
+      );
+
+  @GET(kGetSearchMovieEndPoint)
+  Future<GetNowPlayingResponse> getSearchMovieResponse(
+      @Query(kQueryParamsApiKey) String apiKey,
+      @Query(kQueryParamsQuery) String query
       );
 }

@@ -9,6 +9,8 @@ import '../data/vos/movie_vo/movie_vo.dart';
 class HomePageBloc extends ChangeNotifier{
   final Apply _apply = ApplyImpl();
 
+  bool _dispose = false;
+
   final CarouselController _carouselController = CarouselController();
 
   int getNowPlayingPage = 1;
@@ -27,6 +29,7 @@ class HomePageBloc extends ChangeNotifier{
   List<GenresVO>? genresList;
   List<MovieVO>? movieList;
 
+  bool get isDispose => _dispose;
   CarouselController get getCarouselController => _carouselController;
   List<MovieVO>? get getGetNowPlayingList => getNowPlayingList;
   List<MovieVO>? get getGetPopularMovieList => getPopularMovieList;
@@ -101,5 +104,20 @@ class HomePageBloc extends ChangeNotifier{
     notifyListeners();
   }
 
+  @override
+  void notifyListeners() {
+    if(!_dispose){
+      super.notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _dispose = true;
+    _popularMovieScrollController.dispose();
+    _movieScrollController.dispose();
+  }
 
 }
